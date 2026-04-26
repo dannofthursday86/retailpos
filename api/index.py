@@ -171,7 +171,7 @@ def render_page(content, page_title, icon='cube', inventory=None, suppliers=None
                   .replace('{{ icon }}', icon) + 
         '{% block content %}' + content + '{% endblock %}',
         stats=stats, 
-        session=session,
+        
         inventory_data=inventory if inventory else [],
         supplier_data=suppliers if suppliers else [],
         customer_data=customers if customers else [],
@@ -606,7 +606,7 @@ def lowstock():
         </table>
     </div>
     '''
-    return render_page(content, 'Low Stock', 'exclamation-circle', inventory=low_items)
+    return render_page(content, 'Low Stock', 'exclamation-circle', inventory=low_items, suppliers=[], customers=[], selling=[], payment=[], cheque=[], returns=[], users_list=[])
 
 # Version
 @app.route('/public/admin/versiapp')
