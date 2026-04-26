@@ -87,4 +87,5 @@ def logout():
     session.clear()
     return redirect('/public/home')
 
-application = app
+if __name__ == '__main__':
+    app.run(debug=True)
