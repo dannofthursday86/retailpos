@@ -165,8 +165,22 @@ BASE_HTML = '''
 </html>
 '''
 
-def render_page(content, page_title, icon='cube'):
-    return render_template_string(BASE_HTML.replace('{{ page_title }}', page_title).replace('{{ icon }}', icon) + '{% block content %}' + content + '{% endblock %}', stats=stats, session=session)
+def render_page(content, page_title, icon='cube', inventory=None, suppliers=None, customers=None, selling=None, payment=None, cheque=None, returns=None, users_list=None):
+    return render_template_string(
+        BASE_HTML.replace('{{ page_title }}', page_title)
+                  .replace('{{ icon }}', icon) + 
+        '{% block content %}' + content + '{% endblock %}',
+        stats=stats, 
+        session=session,
+        inventory_data=inventory if inventory else [],
+        supplier_data=suppliers if suppliers else [],
+        customer_data=customers if customers else [],
+        selling_data=selling if selling else [],
+        payment_data=payment if payment else [],
+        cheque_data=cheque if cheque else [],
+        return_data=returns if returns else [],
+        user_data=users_list if users_list else []
+    )
 
 @app.route('/')
 def index():
@@ -257,7 +271,7 @@ def dashboard():
         </table>
     </div>
     '''
-    return render_page(content, 'Dashboard', 'tachometer-alt').replace('{% for item in inventory %}', '{% for item in inventory_data %}')
+    return render_page(content, 'Dashboard', 'tachometer-alt', inventory=inventory_data)
 
 # Inventory
 @app.route('/public/inventory')
@@ -292,7 +306,7 @@ def inventory():
         </table>
     </div>
     '''
-    return render_page(content, 'Inventory', 'box').replace('{% for item in items %}', '{% for item in inventory_data %}')
+    return render_page(content, 'Inventory', 'box', inventory=inventory_data)
 
 # Supplier
 @app.route('/public/suplier')
@@ -322,7 +336,7 @@ def suplier():
         </table>
     </div>
     '''
-    return render_page(content, 'Supplier', 'truck').replace('{% for s in suppliers %}', '{% for s in supplier_data %}')
+    return render_page(content, 'Supplier', 'truck', suppliers=supplier_data)
 
 # Customer
 @app.route('/public/customer')
@@ -353,7 +367,7 @@ def customer():
         </table>
     </div>
     '''
-    return render_page(content, 'Customer', 'users').replace('{% for c in customers %}', '{% for c in customer_data %}')
+    return render_page(content, 'Customer', 'users', customers=customer_data)
 
 # Selling
 @app.route('/public/selling')
@@ -377,7 +391,7 @@ def selling():
         </table>
     </div>
     '''
-    return render_page(content, 'Selling', 'chart-line').replace('{% for s in selling %}', '{% for s in selling_data %}')
+    return render_page(content, 'Selling', 'chart-line', selling=selling_data)
 
 # POS/Cart
 @app.route('/public/selling/cart')
@@ -426,7 +440,7 @@ def selling_cart():
         </div>
     </div>
     '''
-    return render_page(content, 'POS', 'shopping-cart').replace('{% for item in items %}', '{% for item in inventory_data %}')
+    return render_page(content, 'POS', 'shopping-cart', inventory=inventory_data)
 
 # Quotation
 @app.route('/public/quote')
@@ -494,7 +508,7 @@ def cheque():
         </table>
     </div>
     '''
-    return render_page(content, 'Cheque', 'money-check').replace('{% for c in cheque %}', '{% for c in cheque_data %}')
+    return render_page(content, 'Cheque', 'money-check', cheque=cheque_data)
 
 # Invoice & Payment
 @app.route('/public/payment')
@@ -519,7 +533,7 @@ def payment():
         </table>
     </div>
     '''
-    return render_page(content, 'Invoice & Payment', 'file-invoice-dollar').replace('{% for p in payment %}', '{% for p in payment_data %}')
+    return render_page(content, 'Invoice & Payment', 'file-invoice-dollar', payment=payment_data)
 
 # Return
 @app.route('/public/returns')
@@ -543,7 +557,7 @@ def returns():
         </table>
     </div>
     '''
-    return render_page(content, 'Return', 'undo').replace('{% for r in returns %}', '{% for r in return_data %}')
+    return render_page(content, 'Return', 'undo', returns=return_data)
 
 # Expired Stock
 @app.route('/public/inventory/experied')
@@ -567,7 +581,7 @@ def experied():
         </table>
     </div>
     '''
-    return render_page(content, 'Expired Stock', 'exclamation-triangle').replace('{% for item in items %}', '{% for item in inventory_data %}')
+    return render_page(content, 'Expired Stock', 'exclamation-triangle', inventory=inventory_data)
 
 # Low Stock
 @app.route('/public/lowstock')
@@ -592,7 +606,7 @@ def lowstock():
         </table>
     </div>
     '''
-    return render_page(content, 'Low Stock', 'exclamation-circle').replace('{% for item in items %}', '{% for item in low_items %}')
+    return render_page(content, 'Low Stock', 'exclamation-circle', inventory=low_items)
 
 # Version
 @app.route('/public/admin/versiapp')
@@ -639,7 +653,7 @@ def users():
         </table>
     </div>
     '''
-    return render_page(content, 'User Management', 'user-cog').replace('{% for u in users_list %}', '{% for u in user_data %}')
+    return render_page(content, 'User Management', 'user-cog', users_list=user_data)
 
 # QR Inventory
 @app.route('/public/admin/qr')
