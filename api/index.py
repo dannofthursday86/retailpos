@@ -188,6 +188,5 @@ def logout():
     session.clear()
     return redirect('/public/home')
 
-# Vercel exports
-application = app
-app = application
+# Vercel and Gunicorn exports
+app = application = app
