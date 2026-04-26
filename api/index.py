@@ -159,7 +159,7 @@ BASE_HTML = '''
                 <a href="/logout" class="btn btn-danger"><i class="fas fa-sign-out-alt"></i> Logout</a>
             </div>
         </div>
-        {% block content %}{% endblock %}
+        
     </div>
 </body>
 </html>
@@ -179,7 +179,8 @@ def render_page(content, page_title, icon='cube', inventory=None, suppliers=None
         payment_data=payment if payment else [],
         cheque_data=cheque if cheque else [],
         return_data=returns if returns else [],
-        user_data=users_list if users_list else []
+        user_data=users_list if users_list else [],
+        session={'username': session.get('username', 'Admin')}
     )
 
 @app.route('/')
