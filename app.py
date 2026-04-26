@@ -88,14 +88,14 @@ BASE_HTML = '''
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f6f9; }
-        .sidebar { width: 250px; background: #2c3e50; color: white; min-height: 100vh; position: fixed; }
+        .sidebar { width: 220px; background: #2c3e50; color: white; min-height: 100vh; position: fixed; left: 0; top: 0; z-index: 100; }
         .sidebar h2 { padding: 20px; background: #1a252f; text-align: center; font-size: 18px; }
         .menu-section { padding: 10px 20px 5px; font-size: 11px; color: #95a5a6; text-transform: uppercase; font-weight: bold; }
         .menu a { display: flex; align-items: center; padding: 12px 20px; color: #ecf0f1; text-decoration: none; transition: 0.3s; }
         .menu a:hover { background: #34495e; }
         .menu a i { margin-right: 10px; width: 20px; }
         .menu .badge { margin-left: auto; background: #e74c3c; padding: 2px 8px; border-radius: 10px; font-size: 11px; }
-        .main { margin-left: 250px; padding: 20px; }
+        .main { margin-left: 220px; padding: 20px; min-height: 100vh; }
         .topbar { background: white; padding: 15px 25px; border-radius: 5px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .topbar h2 { color: #2c3e50; }
         .topbar .user-info { display: flex; align-items: center; gap: 15px; }
