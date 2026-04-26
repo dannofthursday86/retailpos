@@ -188,5 +188,41 @@ def logout():
     session.clear()
     return redirect('/public/home')
 
+# Missing routes
+@app.route('/public/selling/cart')
+def selling_cart():
+    if not session.get('logged_in'):
+        return redirect('/public/home')
+    return render_template_string(ADMIN_HTML.replace('Dashboard', 'POS - Selling Cart').replace('{% block content %}{% endblock %}', '''
+        <div class="table-container">
+            <div class="table-header"><h3><i class="fas fa-shopping-cart"></i> POS</h3></div>
+            <div style="padding:20px;">
+                <p>Point of Sale - Coming Soon</p>
+            </div>
+        </div>
+    '''), inventory=inventory_data, stats=stats)
+
+@app.route('/public/selling')
+def selling():
+    if not session.get('logged_in'):
+        return redirect('/public/home')
+    selling_data = [
+        {'no': '1', 'tarikh': '25-04-2026', 'jumlah': 'RM 150.00', 'status': 'Lunas'},
+        {'no': '2', 'tarikh': '24-04-2026', 'jumlah': 'RM 85.50', 'status': 'Lunas'},
+    ]
+    html = ADMIN_HTML.replace('Dashboard', 'Selling').replace('<th>No</th><th>Nama Barangan</th><th>Qty</th><th>Satuan</th>', '<th>No</th><th>Tarikh</th><th>Jumlah</th><th>Status</th>').replace('{% for item in inventory %}', '{% for s in selling_data %}').replace('<td>{{ loop.index }}</td><td>{{ item.nama }}</td><td>{{ item.jumlah }}</td><td>{{ item.satuan }}</td>', '<td>{{ s.no }}</td><td>{{ s.tarikh }}</td><td>{{ s.jumlah }}</td><td>{{ s.status }}</td>')
+    return render_template_string(html, inventory=selling_data, stats=stats)
+
+@app.route('/public/payment')
+def payment():
+    if not session.get('logged_in'):
+        return redirect('/public/home')
+    payment_data = [
+        {'no': '1', 'invois': 'INV-001', 'jumlah': 'RM 200.00', 'baki': 'RM 0.00'},
+        {'no': '2', 'invois': 'INV-002', 'jumlah': 'RM 150.00', 'baki': 'RM 50.00'},
+    ]
+    html = ADMIN_HTML.replace('Dashboard', 'Invoice & Payment').replace('<th>No</th><th>Nama Barangan</th><th>Qty</th><th>Satuan</th>', '<th>No</th><th>No. Invois</th><th>Jumlah</th><th>Baki</th>').replace('{% for item in inventory %}', '{% for p in payment_data %}').replace('<td>{{ loop.index }}</td><td>{{ item.nama }}</td><td>{{ item.jumlah }}</td><td>{{ item.satuan }}</td>', '<td>{{ p.no }}</td><td>{{ p.invois }}</td><td>{{ p.jumlah }}</td><td>{{ p.baki }}</td>')
+    return render_template_string(html, inventory=payment_data, stats=stats)
+
 # Vercel and Gunicorn exports
 app = application = app
