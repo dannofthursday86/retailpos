@@ -666,7 +666,5 @@ def logout():
     session.clear()
     return redirect('/public/home')
 
-# Export for Gunicorn
-if __name__ == '__main__':
-    application = app
-    app = application
+# Gunicorn export
+application = app
