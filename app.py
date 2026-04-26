@@ -395,7 +395,7 @@ def selling():
     return render_page(content, 'Selling', 'chart-line', selling=selling_data)
 
 # POS/Cart
-@app.route('/public/selling/cart')
+@app.route('/public/selling/cart', methods=['GET', 'POST'])
 def selling_cart():
     if not session.get('logged_in'):
         return redirect('/public/home')
